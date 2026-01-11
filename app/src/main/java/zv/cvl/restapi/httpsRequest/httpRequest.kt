@@ -1,16 +1,18 @@
 package zv.cvl.restapi.httpsRequest
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import zv.cvl.restapi.viewmodel.DataType
 
 class httpRequest(val url: String) {
 
     fun getData() : List<DataType>{
         var data: List<DataType>
-        val rawData: String = getRawData()
-        if (rawData.isNotEmpty()){
-            data = emptyList()
+        val rawData = getRawData()
+        data = if (rawData.isNotEmpty()){
+            emptyList()
         } else {
-            data = emptyList()
+            emptyList()
         }
         return data
     }
