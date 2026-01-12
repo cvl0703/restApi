@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,11 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.tooling.preview.Preview
-import zv.cvl.restapi.httpsRequest.httpRequest
+import zv.cvl.restapi.httpsRequest.HttpRequest
 import zv.cvl.restapi.ui.theme.RestApiTheme
 import zv.cvl.restapi.viewmodel.Repository
 import zv.cvl.restapi.viewmodel.ViewModelClass
@@ -46,10 +42,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun userInterface(modifier: Modifier, context: Context) {
     var url by remember { mutableStateOf("") }
-    var response by remember { mutableStateOf("") }
-    var http = httpRequest(url)
+    var http = HttpRequest(url)
     val repo = Repository(context)
     val viewModel = ViewModelClass(repo)
+    var response by remember { mutableStateOf(viewModel.content.toString()) }
     Column (modifier = modifier){
         TextField(
             value = url,
