@@ -24,19 +24,17 @@ class Repository (private val context: Context){
         }
     }
 
-    suspend fun writeContent(data: List<DataType>) {
+    suspend fun writeContent(data: String) {
         return withContext(Dispatchers.IO) {
             val file = getFile()
             file.delete()
-            data.forEach { item ->
-                file.appendText(item.toString())
-            }
+            file.appendText(data)
         }
     }
 
     suspend fun delContent() {
         return withContext(Dispatchers.IO){
-            writeContent(emptyList())
+            writeContent("")
         }
     }
 }

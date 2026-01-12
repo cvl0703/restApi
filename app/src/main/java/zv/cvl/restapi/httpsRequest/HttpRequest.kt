@@ -10,20 +10,18 @@ class HttpRequest(val url: String) {
     fun getData() : List<DataType>{
         var data: List<DataType>
         val rawData = getRawData()
+        print(rawData)
         data = if (rawData.isNotEmpty()){
-            rawData.forEach { item ->
-                if (item == '"'){
+            var dataList: List<DataType> = emptyList()
 
-                }
-            }
-            return emptyList()
+            return dataList
         } else {
             emptyList()
         }
         return data
     }
 
-    private fun getRawData() : String{
+    fun getRawData(): String{
         val url = URI.create(url).toURL()
         val conn = url.openConnection() as HttpURLConnection
         val responseCode: String
