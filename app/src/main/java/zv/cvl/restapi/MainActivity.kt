@@ -54,7 +54,7 @@ private fun transformData(data: List<String>): String{
 
 @Composable
 fun userInterface(modifier: Modifier, context: Context) {
-    var url by remember { mutableStateOf("") }
+    var url by remember { mutableStateOf("https://") }
     val repo = Repository(context)
     val viewModel = ViewModelClass(repo, url)
     val data: List <String> by viewModel.content.collectAsState()
