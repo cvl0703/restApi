@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
 }
 
 private fun transformData(data: List<String>): String{
-    var response: String = ""
+    var response = ""
     data.forEach { item ->
         response += item
     }
@@ -54,7 +54,7 @@ private fun transformData(data: List<String>): String{
 
 @Composable
 fun userInterface(modifier: Modifier, context: Context) {
-    var url by remember { mutableStateOf("https://") }
+    var url by remember { mutableStateOf("https://restcountries.com/v3.1/name/eesti") }
     val repo = Repository(context)
     val viewModel = ViewModelClass(repo, url)
     val data: List <String> by viewModel.content.collectAsState()
