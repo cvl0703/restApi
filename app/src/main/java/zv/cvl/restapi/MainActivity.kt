@@ -25,6 +25,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import zv.cvl.restapi.httpsRequest.HttpRequest
 import zv.cvl.restapi.ui.theme.RestApiTheme
 import zv.cvl.restapi.viewmodel.Repository
@@ -56,7 +59,13 @@ private fun transformData(data: List<String>): String{
 fun userInterface(modifier: Modifier, context: Context) {
     var url by remember { mutableStateOf("https://restcountries.com/v3.1/name/eesti") }
     val repo = Repository(context)
-    val viewModel = ViewModelClass(repo, url)
+    val viewModel: ViewModelClass = viewModel(
+        factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return ViewModelClass(repo, url) as T
+            }
+        }
+    )
     val data: List <String> by viewModel.content.collectAsState()
 
     val scrollState = rememberScrollState()
