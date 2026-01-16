@@ -2,6 +2,7 @@ package zv.cvl.restapi
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -57,11 +58,12 @@ private fun transformData(data: List<String>): String{
 
 @Composable
 fun userInterface(modifier: Modifier, context: Context) {
-    var url by remember { mutableStateOf("https://restcountries.com/v3.1/name/eesti") }
+    var url by remember { mutableStateOf("") }
     val repo = Repository(context)
-    val viewModel: ViewModelClass = viewModel(
+    var viewModel: ViewModelClass = viewModel(
         factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                Log.d("asd",url)
                 return ViewModelClass(repo, url) as T
             }
         }

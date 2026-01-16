@@ -1,5 +1,6 @@
 package zv.cvl.restapi.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -10,11 +11,9 @@ import kotlinx.coroutines.withContext
 import zv.cvl.restapi.httpsRequest.HttpRequest
 
 class ViewModelClass(private val repository: Repository, url: String): ViewModel()  {
-
     private val _content = MutableStateFlow<List<String>>(emptyList())
     val content = _content.asStateFlow()
-    private val http = HttpRequest(url)
-
+    private var http = HttpRequest(url)
     fun getRawData(){
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
