@@ -10,12 +10,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import zv.cvl.restapi.httpsRequest.HttpRequest
 
-class ViewModelClass(private val repository: Repository, url: String): ViewModel()  {
+class ViewModelClass(private val repository: Repository): ViewModel()  {
     private val _content = MutableStateFlow<List<String>>(emptyList())
     val content = _content.asStateFlow()
-    private var http = HttpRequest(url)
-    fun getRawData(){
+    fun getRawData(url: String){
         viewModelScope.launch {
+            var http = HttpRequest(url)
             val result = withContext(Dispatchers.IO) {
                 http.getRawData()
             }

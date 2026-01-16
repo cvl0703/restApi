@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             RestApiTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    userInterface(Modifier.padding(innerPadding), applicationContext)
+                    UserInterface(Modifier.padding(innerPadding), applicationContext)
                 }
             }
         }
@@ -57,14 +58,14 @@ private fun transformData(data: List<String>): String{
 }
 
 @Composable
-fun userInterface(modifier: Modifier, context: Context) {
+fun UserInterface(modifier: Modifier, context: Context) {
     var url by remember { mutableStateOf("") }
     val repo = Repository(context)
-    var viewModel: ViewModelClass = viewModel(
+    val viewModel: ViewModelClass = viewModel(
         factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 Log.d("asd",url)
-                return ViewModelClass(repo, url) as T
+                return ViewModelClass(repo) as T
             }
         }
     )
@@ -79,11 +80,13 @@ fun userInterface(modifier: Modifier, context: Context) {
         )
         Row(modifier = Modifier.fillMaxWidth()) {
             Button(onClick = {viewModel.delData()}) {Text("Delete Data")}
-            Button(onClick = {viewModel.getRawData()}) {Text("Request Data")}
+            Button(onClick = {viewModel.getRawData(url)}) {Text("Request Data")}
         }
         Text(transformData(data), modifier= Modifier.fillMaxSize().verticalScroll(scrollState))
     }
-    viewModel.readLines()
+    LaunchedEffect(Unit) {
+        viewModel.readLines()
+    }
 
 }
 
